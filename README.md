@@ -1,66 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Daily Task Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A simple Laravel-based daily task management system that allows users to create, edit, delete, and manage tasks via a Blade-based interface. The system includes an automated Cron Job to send daily emails to users with pending tasks.
 
-## About Laravel
+## Features
+- **User Authentication**: Users can register and log in to access their task management dashboard.
+- **Task Management**: Users can add, edit, delete, and mark tasks as 'Pending' or 'Completed'.
+- **Daily Email Reminders**: Using Laravel's command scheduler, the system sends a daily email with pending tasks.
+- **Error Handling**: Handles errors gracefully with user-friendly messages.
+- **Caching**: Improves performance by caching frequently accessed data.
+- **Data Filtering**: Filter tasks based on status (Pending, Completed).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Requirements
+- PHP 8.x
+- Composer
+- Laravel 10.x
+- Database (MySQL, PostgreSQL, etc.)
+- Mailtrap (for email testing)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Clone the repository**:
+   ```bash
+   git clone [https://github.com/username/daily-task-management-system.git](https://github.com/hamzaIssa254/Daily-Task-Management-System.git
+   cd daily-task-management-system
+## Install dependencies:
+- **composer install**
 
-## Learning Laravel
+## Environment setup:
+-**cp .env.example .env**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Generate the application key:
+-**php artisan key:generate**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Run migrations:
+-**php artisan migrate**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Mailtrap configuration:
+-**Sign up for a Mailtrap account at Mailtrap.io.**
+--**Copy your Mailtrap SMTP settings to .env:**
+**MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_mailtrap_username
+MAIL_PASSWORD=your_mailtrap_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=example@example.com
+MAIL_FROM_NAME="Daily Task Management System"**
 
-## Laravel Sponsors
+## Start the development server:
+**php artisan ser**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Usage:
+1-Register a user through the /register route.
+2-Login and navigate to the dashboard.
+3-Manage tasks:
+**View a list of tasks on the tasks.index page**.
+**Create a new task through the tasks.create page**.
+**Edit or delete tasks directly from the task list**.
+**Change task status between Pending and Completed**.
 
-### Premium Partners
+## Command & Scheduled Job Setup:
+-The system includes a scheduled job to send daily emails containing pending tasks.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Run the command manually:
+**php artisan app:send-daily-tasks-email**
 
-## Contributing
+## Schedule the command: To set up the job to run automatically every day, add the following Cron job to your server’s crontab:
+**php artisan schedule:work**
+**Laravel’s scheduler will ensure app:send-daily-tasks-email runs as per the schedule defined in App\Console\Kernel.php.**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Code Structure:
+**Controller: Manages requests and passes data to Blade views.**
+**Service Layer: Business logic for task management is abstracted into a service for cleaner controller code.**
+**Blade Views: Handles front-end task management (task listing, creation, editing).**
+**Jobs: SendDailyTasksEmailJob sends emails daily.**
+**Mail: DailyTasksEmail mailable handles email formatting.**
 
-## Code of Conduct
+## Caching and Performance:
+**Frequently accessed tasks are cached using Laravel’s cache system to optimize performance. For example:**
+**Cache::remember('tasks', 3600, function () {
+    return Task::all();
+});**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Blade Directives:
+**@if: Conditionally displays elements, like task status labels.**
+**@foreach: Loops through tasks for easy listing.**
+**@csrf: Protects forms against CSRF attacks.**
 
-## Security Vulnerabilities
+## Testing:
+**Test emails can be viewed directly in Mailtrap’s inbox.**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## License:
+**This project is open-source and available under the MIT License.**
